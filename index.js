@@ -1,16 +1,21 @@
-const express = require('express');
-const { dbconnection } = require('./database/config');
 require('dotenv').config();
 var cors = require('cors');
 
+const express = require('express');
+const { dbconnection } = require('./database/config');
+
 //create the express server
 const app = express();
-
 app.use(cors());
+
+//reading and parsing body
+app.use(express.json());
+
+//routing
+app.use('/api/users',require('./routes/users'));
 
 //dbconnection
 dbconnection();
-
 
 //Routes
 app.get( '/', (req, res) => {
@@ -18,10 +23,8 @@ app.get( '/', (req, res) => {
         ok:true,
         msg: 'Hola Mundo'
     })
-})
+});
 
-//user: mean_user
-//pwd: fJR9bzxJWev1VlLM
 
 app.listen( process.env.PORT, () => {
     console.log(`Servidor corriendo en puerto ${process.env.PORT}` );
