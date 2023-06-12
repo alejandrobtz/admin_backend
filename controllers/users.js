@@ -10,7 +10,8 @@ const getUsers = async (req, res) => {
 
     res.json({
         ok:true,
-        users: users
+        users: users,
+        uid: req.uid
     });
 }
 
@@ -35,8 +36,6 @@ const createUser = async (req, res = response) => {
         //saving user
         await user.save()
         const token = await generateJWT(user.id);
-
-
         
         res.json({
             ok:true,
