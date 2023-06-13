@@ -14,6 +14,12 @@ app.use(express.json());
 //routing
 app.use('/api/users',require('./routes/users'));
 app.use('/api/login', require('./routes/auth'));
+app.use('/api/hospitals', require('./routes/hospitals'));
+app.use('/api/doctors', require('./routes/doctors'));
+app.use('/api/searchAll', require('./routes/search'));
+
+
+
 
 //dbconnection
 dbconnection();
