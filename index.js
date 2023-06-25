@@ -17,6 +17,8 @@ app.use('/api/login', require('./routes/auth'));
 app.use('/api/hospitals', require('./routes/hospitals'));
 app.use('/api/doctors', require('./routes/doctors'));
 app.use('/api/searchAll', require('./routes/search'));
+app.use('/api/upload', require('./routes/upload'));
+
 
 
 
