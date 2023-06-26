@@ -1,5 +1,6 @@
 const { response } = require('express');
 const { v4: uuidv4 } = require('uuid');
+const { updateFile } = require('../helpers/update-file');
 
 
 
@@ -30,7 +31,7 @@ const uploadFile = async (req, res = response) => {
     const trimmedName = file.name.split('.');
     const extension = trimmedName[ trimmedName.length - 1 ];
 
-    //validate extension for allowing certain tipes of files.
+    //validate extension for allowing certain types of files.
     const validExtensions = ['png', 'jpg', 'jpeg', 'gif'];
     if(!validExtensions.includes(extension)){
         res.status(400).json({
@@ -46,7 +47,7 @@ const uploadFile = async (req, res = response) => {
     const path = `./uploads/${entitytype}/${fileName}`;
 
     //move the file
-    file.mv(path, (err) => {
+    file.mv(path, async (err) => {
         if(err){
             console.log(err);
             return res.status(500).json({
@@ -55,20 +56,17 @@ const uploadFile = async (req, res = response) => {
             });
         }
 
+        //Update Database
+        await updateFile(entitytype, id, fileName )
+
         res.json({
             ok: true,
             msg: "File uploaded", 
             fileName
         });
+
     });
 
-    res.status(200).json({
-        ok: true,
-        msg: "upload Successfull",
-        entitytype,
-        id,
-        fileName
-    });
  
 }
 

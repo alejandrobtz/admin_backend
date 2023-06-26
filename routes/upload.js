@@ -11,7 +11,11 @@ router = Router();
 
 router.use( exfileUpload() );
 
-router.put('/:entitytype/:id', validateJWT , uploadFile );
+router.put('/:entitytype/:id', 
+
+[ validateJWT ], 
+
+uploadFile );
 
 
 module.exports = router;
