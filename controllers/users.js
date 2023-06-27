@@ -11,11 +11,11 @@ const getUsers = async (req, res) => {
 
     //destructuring and logic for pagination
     const [users, count] = await Promise.all([
-        User.find({}, 'name email role google')
+        User.find({}, 'name email role google img')
             .skip( from )
-            .limit(5),
+            .limit( 10 ), //put the limit of records you want to send to the front
 
-        User.count()
+        User.countDocuments()
     ]);
 
 

@@ -1,6 +1,8 @@
+const path = require('path');
+
 const { response } = require('express');
 const { v4: uuidv4 } = require('uuid');
-const { updateFile } = require('../helpers/update-file');
+const { updateFile, validateFileExists } = require('../helpers/update-file');
 
 
 
@@ -70,7 +72,21 @@ const uploadFile = async (req, res = response) => {
  
 }
 
+const loadFile = ( req, res = response ) =>{
+    const entityType = req.params.entitytype;
+    const pic = req.params.pic;
+
+    let pathImg = path.join(__dirname, `../uploads/${ entityType }/${ pic }`);
+
+    if(!validateFileExists( pathImg )){
+        pathImg = path.join(__dirname, `../uploads/noimage.png`);
+    } 
+    
+    res.sendFile( pathImg );
+
+}
 
 module.exports = {
-    uploadFile
+    uploadFile,
+    loadFile
 }
