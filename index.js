@@ -8,6 +8,10 @@ const { dbconnection } = require('./database/config');
 const app = express();
 app.use(cors());
 
+
+//public folder
+app.use(express.static('public'));
+
 //reading and parsing body
 app.use(express.json());
 

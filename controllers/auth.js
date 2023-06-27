@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
 const { generateJWT } = require('../helpers/jwt');
+const { googleVerify } = require('../helpers/google-verifier');
 
 
 const login = async(req, res = response ) => {
@@ -43,11 +44,59 @@ const login = async(req, res = response ) => {
         res.status(500).json({
             ok: false, 
             msg: 'Speak with the admin'
-        })
+        });
         
     }
 }
 
+const googleSignIn = async( req, res = response ) => {
+
+    try {
+        
+        const { email, name, picture } = await googleVerify( req.body.token );
+
+        const usrDB = await User.findOne( { email } );
+
+        let usr;
+
+        if(! usrDB ){
+            usr = new User({
+                name,
+                email,
+                password: '@@@',
+                img: picture,
+                google: true
+            });
+        } else {
+            usr = usrDB
+            usr.google = true
+        }
+
+
+        //saving user
+        await usr.save();
+
+        //generate JWT
+        const token = await generateJWT( usr.id );
+
+        res.json({
+            ok: true, 
+            name,
+            email, 
+            picture,
+            token
+        })
+        
+    } catch (error) {
+        res.status(400).json({
+            ok: false, 
+            msg: `Wrong Google's token`
+        });
+    }
+    
+}
+
 module.exports = {
-    login
+    login,
+    googleSignIn
 }
