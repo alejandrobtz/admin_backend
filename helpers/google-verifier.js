@@ -11,13 +11,11 @@ async function googleVerify( token ) {
   });
   
   const payload = ticket.getPayload();
+  const { name, email, img } = payload;
   //console.log(payload);
 
-  return payload;
+  return { name, email, img };
 
-  //const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
 }
 
 

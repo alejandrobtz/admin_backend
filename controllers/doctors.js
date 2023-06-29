@@ -44,20 +44,67 @@ const createDoctor = async (req, res = response) => {
 
 }
 
-const updateDoctor = (req, res = response) => {
+const updateDoctor = async(req, res = response) => {
 
-    res.json({
-        ok:true, 
-        msg:'updateDoctor'
-    });
+    const id = req.params.id;
+    const uid = req.uid;
+
+    try {
+        const doctorDb = Doctor.findById(id);
+        if(!doctorDb){
+            return res.status(404).json({
+                ok: false,
+                msg: "Doctor was not found"
+            });
+        }
+
+        const doctorUpdates = {
+            ...req.body,
+            user: uid
+        }
+
+        const doctorUpdated = await Doctor.findByIdAndUpdate( id, doctorUpdates, { new: true } );
+        
+        res.json({
+            ok:true, 
+            doctor: doctorUpdated
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "An error occured updating doctor"
+        });
+    }
+
 }
 
-const deleteDoctor = (req, res = response) => {
+const deleteDoctor = async(req, res = response) => {
+    const id = req.params.id;
 
-    res.json({
-        ok:true, 
-        msg:'deleteDoctor'
-    });
+    try {
+        const doctorDb = await Doctor.findById(id);
+        if(!doctorDb){
+            return res.status(404).json({
+                ok: false,
+                msg: "Doctor was not found"
+            });
+        }
+
+        await Doctor.findByIdAndDelete(id);
+        
+        res.json({
+            ok:true, 
+            msg: `Doctor: ${ doctorDb.name } was deleted`,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "An error occured updating doctor"
+        });
+    }
+   
 }
 
 

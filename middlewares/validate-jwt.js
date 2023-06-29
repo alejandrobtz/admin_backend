@@ -12,8 +12,8 @@ const validateJWT = (req, res, next) => {
         });
     }
 
-
     try {
+        //validate token, and assign it to req.uid in case validation is ok.
         const { uid } = jwt.verify( token, process.env.JWT_SEC );
         req.uid = uid;
         next();
@@ -22,7 +22,7 @@ const validateJWT = (req, res, next) => {
         return res.status(401).json({
             ok: false, 
             msg: 'no valid token'
-        })
+        });
     }
 
 }

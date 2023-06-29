@@ -27,15 +27,18 @@ router.post('/',
 );
 
 //Update Doctor
-router.put('/:id', 
-    [
-
+router.put('/:id',
+    [ 
+        validateJWT,
+        check('name', "name is mandatory").not().isEmpty(),
+        check('hospital', "hospital id must be a valida id").isMongoId(),
+        validateFields
     ],
-    updateDoctor
+    updateDoctor 
 );
 
 //Delete Doctor
-router.delete('/:id', deleteDoctor);
+router.delete('/:id', validateJWT ,deleteDoctor);
 
 
 module.exports = router;
