@@ -7,9 +7,6 @@ const { login, googleSignIn, renewToken } = require('../controllers/auth');
 const { check } = require('express-validator');
 const { validateJWT } = require('../middlewares/validate-jwt');
 
-
-
-
 const router = Router();
 
 router.post('/', 

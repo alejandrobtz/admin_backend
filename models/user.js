@@ -30,7 +30,7 @@ const UserSchema = Schema({
 
 /*
     Every time a serilizing is required, using this configuration, I can 
-    modify the name of the attributes comming from db, as we made in this example witht the
+    modify the name of the attributes comming from db, as we made in this example with the
     id
     This won't modify the database
 */
