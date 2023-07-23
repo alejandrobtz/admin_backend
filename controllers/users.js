@@ -80,7 +80,7 @@ const updateUser = async (req, res = response) => {
             });
         }
         
-        const {password, google, email,  ...fields } = req.body;
+        const { password, google, email,  ...fields } = req.body;
         
         if(usrDB.email !== email){
             const emailExist = await User.findOne({ email });

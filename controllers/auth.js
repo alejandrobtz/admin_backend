@@ -14,7 +14,7 @@ const login = async(req, res = response ) => {
         //validate email
         const usrDB = await User.findOne({ email });
         if(!usrDB) {
-            return res.statusCode(404).json({
+            return res.status(404).json({
                 ok: false,
                 msg: 'email was not found'
             });
